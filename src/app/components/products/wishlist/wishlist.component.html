@@ -1,0 +1,28 @@
+<div class="container">
+  <div
+    *ngIf="!products.length"
+    class="w-100 empty d-flex align-items-center justify-content-center"
+  >
+    <h3 class="display-3">You have no products in the wishlist</h3>
+  </div>
+  <div *ngIf="products.length">
+    <h3 class="display-3 text-center mb-3">Your Wishlist</h3>
+    <div
+      class="d-sm-flex justify-content-between align-items-center border mb-4"
+      *ngFor="let p of products; let i = index"
+    >
+      <img [src]="p.url" />
+      <p class="text-center name">{{ p.name }}</p>
+      <p class="text-center">{{ '$' + p.price }}</p>
+      <div class="d-flex flex-column">
+        <button (click)="addProductToCart(p)" class="btn btn-outline-primary mb-2">
+          Add Product To Cart
+        </button>
+        <button (click)="removeProduct(p)" class="btn btn-outline-danger">
+          <span *ngIf="unWishlisting[i]" class="spinner-border spinner-border-sm"></span> Remove
+          From WishList
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

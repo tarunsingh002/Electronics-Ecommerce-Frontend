@@ -1,0 +1,20 @@
+/* .content {
+  flex-basis: 100%;
+} */
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.validation {
+  color: red;
+  display: block;
+}
+
+.container {
+  height: 78vh;
+}
+
+input.ng-invalid.ng-touched {
+  border: solid 1px red;
+}

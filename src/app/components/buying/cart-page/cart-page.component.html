@@ -1,0 +1,37 @@
+<div class="container">
+  <div
+    *ngIf="!cart.length"
+    class="w-100 empty d-flex align-items-center justify-content-center"
+  >
+    <h3 class="display-3">Your Cart is empty</h3>
+  </div>
+  <div *ngIf="cart.length">
+    <h3 class="display-3 text-center mb-3">Your Cart</h3>
+    <div
+      class="d-sm-flex justify-content-between align-items-center border mb-4"
+      *ngFor="let p of cart; let i = index"
+    >
+      <img [src]="p.product.url" />
+      <p class="mt-2 text-center">{{ p.product.name }}</p>
+      <p class="mt-2 text-center">{{ "$" + p.product.price }}</p>
+      <div class="text-center">
+        <button (click)="subtractProduct(p)" class="btn btn-outline-primary">
+          -
+        </button>
+        <span>{{ " " + p.quantity + " " }}</span>
+        <button (click)="addProduct(p)" class="btn btn-outline-primary">
+          +
+        </button>
+      </div>
+    </div>
+    <h4 class="display-4 text-center my-5">
+      {{ "Your Cart Total: $" + cartTotal }}
+    </h4>
+    <button
+      class="btn btn-block btn-primary mb-5"
+      [routerLink]="['/buying/checkout']"
+    >
+      Checkout
+    </button>
+  </div>
+</div>

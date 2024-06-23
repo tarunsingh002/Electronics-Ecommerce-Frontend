@@ -1,0 +1,266 @@
+<div class="container-fluid mt-4">
+  <!-- Side Bar -->
+
+  <div class="row">
+    <div class="col-md-2 d-none d-md-block border-right">
+      <div class="sidebar d-flex flex-column justify-content-between">
+        <div class="lead">Filter by</div>
+        <div class="brand-filter">
+          <!-- Filter by Brands -->
+          <div class="lead">Brands</div>
+          <form [formGroup]="rForm">
+            <div class="brandcheckboxes" *ngFor="let brand of brands; let i = index">
+              <label class="form-check-label form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [value]="brand"
+                  name="filterbybrand"
+                  [formControlName]="'brand' + (i + 1)"
+                />
+                <span>{{ brand }}</span>
+              </label>
+            </div>
+          </form>
+        </div>
+        <!-- Filter By Category -->
+        <div class="category-filter">
+          <div class="lead">Category</div>
+          <form [formGroup]="rForm1">
+            <div class="categoryradio" *ngFor="let category of categories; let i = index">
+              <label class="form-check-label form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [value]="category"
+                  name="filterbycategory"
+                  [formControlName]="'category' + (i + 1)"
+                />
+                <span>{{ category }}</span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10">
+      <!-- Greeting to the user -->
+      <div *ngIf="auth" class="lead mb-2 text-center">Hello {{ userEmail }}</div>
+      <div class="row d-flex justify-content-between mt-2 mb-4">
+        <!-- Search Bar -->
+        <div class="col-sm-6 col-lg-6 col-xl-4 mb-4 mb-sm-0">
+          <form [formGroup]="reactiveForm">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"
+                  ><svg xmlns="http://www.w3.org/2000/svg " class="icon" viewBox="0 0 512 512">
+                    <path
+                      d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+                    />
+                  </svg>
+                </span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter a name, brand or a category"
+                formControlName="searchTerm"
+              />
+            </div>
+          </form>
+        </div>
+
+        <!-- Sorting -->
+
+        <div class="col-sm-6 col-lg-6 col-xl-4">
+          <form [formGroup]="reactiveForm1">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Sort By</label>
+              </div>
+              <select formControlName="sortby" class="custom-select" id="inputGroupSelect01">
+                <option value="0">Default Sorting</option>
+                <option value="1">Price High to Low</option>
+                <option value="2">Price Low to High</option>
+                <option value="3">Name from A-Z</option>
+                <option value="4">Name from Z-A</option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Logging In with Dummy user -->
+
+      <div class="font-weight-normal lead text-center mb-4" *ngIf="introductoryMessage1">
+        Thank you for checking out this website.
+      </div>
+      <div class="font-weight-normal lead text-center mb-4" *ngIf="introductoryMessage2">
+        For you to be able to see most of the features of this website in minimum time.
+      </div>
+      <div class="font-weight-normal lead text-center mb-4" *ngIf="introductoryMessage3">
+        We will be signing you in with a dummy user in a second.
+      </div>
+
+      <div *ngIf="loggingIn" class="d-flex align-items-center mb-4">
+        <div class="lead font-weight-normal">Signing you in with a dummy user...</div>
+        <div
+          class="spinner-border spinner-border-sm ml-auto"
+          role="status"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+      <!-- Searching-Sorting-Filtering loading -->
+
+      <div *ngIf="sorting || searching || filtering" class="d-flex justify-content-center mb-4">
+        <div class="spinner-border spinner-border-sm">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Searching-Filtering results line -->
+
+      <div
+        *ngIf="!(sorting || searching || filtering) && noOfResults"
+        class="d-flex justify-content-center mb-4 results-line"
+      >
+        <div *ngIf="usingSearch && (usingFilter1 || usingFilter2)" class="lead">
+          {{ 'We found ' + noOfResults + ' product(s) per your applied filter and search query' }}
+        </div>
+        <div *ngIf="usingSearch && !(usingFilter1 || usingFilter2)" class="lead">
+          {{ 'We found ' + noOfResults + ' product(s) as per your search query' }}
+        </div>
+        <div *ngIf="!usingSearch && (usingFilter1 || usingFilter2)" class="lead">
+          {{ 'We found ' + noOfResults + ' product(s) as per your applied filter' }}
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div
+        *ngIf="!products.length"
+        class="w-100 no-products d-flex align-items-center justify-content-center"
+      >
+        <h3 class="display-3 text-center">
+          There are currently no products as per your search query and/or applied filter.
+        </h3>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-xl-4 mb-4" *ngFor="let product of products; let i = index">
+          <div class="card">
+            <img [src]="product.url" />
+            <div class="card-body">
+              <h5 class="card-title text-center">{{ product.name }}</h5>
+              <h6 class="card-subtitle text-center">
+                {{ 'Price: $' + product.price }}
+              </h6>
+            </div>
+            <div class="card-body">
+              <button
+                class="btn btn-block btn-info text-light mx-2 my-2"
+                [routerLink]="['/products', product.productId]"
+              >
+                Details
+              </button>
+              <button
+                class="btn btn-block btn-primary mx-2 my-2"
+                *ngIf="!webmaster"
+                (click)="addToCart(product)"
+              >
+                Add to Cart
+              </button>
+              <button
+                class="btn btn-block btn-secondary mx-2 my-2"
+                *ngIf="!webmaster && auth && !wishListed[i]"
+                (click)="addToWishList(i)"
+              >
+                <span *ngIf="wishlisting[i]" class="spinner-border spinner-border-sm"></span>
+                Add to Wishlist
+              </button>
+              <button
+                class="btn btn-block btn-danger mx-2 my-2"
+                *ngIf="!webmaster && auth && wishListed[i]"
+                (click)="removeFromWishList(i)"
+              >
+                <span *ngIf="unwishlisting[i]" class="spinner-border spinner-border-sm"></span>
+                Remove From Wishlist
+              </button>
+              <button
+                class="btn btn-block btn-danger mx-2 my-2"
+                *ngIf="webmaster"
+                (click)="onDelete(product.productId)"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-block btn-warning mx-2 my-2"
+                *ngIf="webmaster"
+                [routerLink]="['/products', product.productId, 'edit']"
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+
+      <div class="d-flex justify-content-center mb-3">
+        <div *ngIf="pageChange" class="spinner-border spinner-border-sm">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [ngClass]="{disabled: currentPage === 1}">
+            <a
+              class="page-link"
+              (click)="
+                goToPage(
+                  currentPage - 1,
+                  searchTerm,
+                  sortBy,
+                  direction,
+                  brandfilter,
+                  categoryfilter
+                )
+              "
+              >Previous</a
+            >
+          </li>
+
+          <li
+            *ngFor="let page of pages"
+            class="page-item"
+            [ngClass]="{active: currentPage === page}"
+          >
+            <a
+              class="page-link"
+              (click)="goToPage(page, searchTerm, sortBy, direction, brandfilter, categoryfilter)"
+              >{{ page }}</a
+            >
+          </li>
+
+          <li [ngClass]="{disabled: isLast}" class="page-item">
+            <a
+              class="page-link"
+              (click)="
+                goToPage(
+                  currentPage + 1,
+                  searchTerm,
+                  sortBy,
+                  direction,
+                  brandfilter,
+                  categoryfilter
+                )
+              "
+              >Next</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="text-center display-3 mb-3">All Orders</div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">User Email</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Order Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let order of orders" (click)="orderDetailsPage(order)">
+                <th scope="row">{{order.id}}</th>
+                <td>{{order.email}}</td>
+                <td>{{order.timestamp}}</td>
+                <td>{{"$"+order.total}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="display-4 text-center my-3">{{"Total Earnings: $"+earnings}}</div>
+</div>

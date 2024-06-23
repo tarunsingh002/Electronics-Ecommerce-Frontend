@@ -1,0 +1,58 @@
+<div class="container">
+    <h1 class="display-4 text-center">{{!editMode ? "Add Product Form":"Edit Product Form"}}</h1>
+    <div class="row d-flex justify-content-center my-4">
+        <div class="col-lg-6 col-md-8">
+            <form [formGroup]="reactiveForm" (ngSubmit)="onSubmit(reactiveForm)">
+                <div class="mb-3">
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" id="name" formControlName="name" class="form-control">
+                    <small *ngIf="reactiveForm.controls.name.invalid && reactiveForm.controls.name.touched">The name
+                        field is required.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="brand">Brand</label>
+                    <input type="text" id="brand" formControlName="brand" class="form-control">
+                    <small *ngIf="reactiveForm.controls.brand.invalid && reactiveForm.controls.brand.touched">The brand
+                        field is required.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="category">Category</label>
+                    <input type="text" id="category" formControlName="category" class="form-control">
+                    <small *ngIf="reactiveForm.controls.category.invalid && reactiveForm.controls.category.touched">The
+                        category
+                        field is required.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="description">Description</label>
+                    <input type="text" id="description" formControlName="description" class="form-control">
+                    <small
+                        *ngIf="reactiveForm.controls.description.invalid && reactiveForm.controls.description.touched">The
+                        description field is required.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="url">Image URL</label>
+                    <input type="text" id="url" formControlName="url" class="form-control">
+                    <small *ngIf="reactiveForm.controls.url.invalid && reactiveForm.controls.url.touched">The
+                        url field is required.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="specification">Specifications</label>
+                    <input type="text" id="specification" formControlName="specification" class="form-control">
+                    <small
+                        *ngIf="reactiveForm.controls.specification.invalid && reactiveForm.controls.specification.touched">The
+                        specification field is required.</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">Price</label>
+                    <input type="number" id="price" formControlName="price" class="form-control">
+                    <small *ngIf="reactiveForm.controls.price.invalid && reactiveForm.controls.price.touched">The
+                        Price field is required.</small>
+                </div>
+
+                <button [disabled]="reactiveForm.invalid" class="btn btn-primary" type="submit" *ngIf="!editMode">Add
+                    Product</button>
+                <button class="btn btn-primary" type="submit" *ngIf="editMode">Update Product</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+img {
+  height: 300px;
+  object-fit: cover;
+  /* object-position: center top; */
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+.custom-select {
+  flex: 0 0 1;
+}
+
+.sidebar {
+  height: 80vh;
+}
+.no-products {
+  height: 65vh;
+}
+
+.results-line .lead {
+  font-weight: 370;
+}
+
+@media (max-width: 992px) {
+  img {
+    height: 230px;
+  }
+}
+
+@media (max-width: 768px) {
+  img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  img {
+    height: 80vw;
+  }
+
+  .no-products {
+    height: auto;
+  }
+}
+
+ul.pagination {
+  cursor: pointer;
+}

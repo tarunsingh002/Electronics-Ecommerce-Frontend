@@ -1,0 +1,114 @@
+<header class="mb-4">
+  <nav class="navbar navbar-expand-lg bg-primary navbar-dark">
+    <a class="navbar-brand" routerLink="/products">Big Store</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            routerLink="/products"
+            [routerLinkActiveOptions]="{exact: true}"
+            >Home</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLinkActive="active" routerLink="/miscellaneous/aboutus"
+            >About</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            *ngIf="!webmaster && auth"
+            routerLink="/buying/orders"
+            >Orders</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            *ngIf="!webmaster && auth"
+            routerLink="/buying/cart"
+            >Cart <span *ngIf="!!items" class="badge text-dark bg-secondary">{{ items }}</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            *ngIf="webmaster"
+            routerLink="/products/create"
+            >Create</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            *ngIf="webmaster"
+            routerLink="/admin/allorders"
+            >Orders</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            *ngIf="webmaster"
+            routerLink="/admin/allwishlisted"
+            >WishLists</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-item nav-link"
+            routerLinkActive="active"
+            *ngIf="!webmaster && auth"
+            routerLink="/products/wishlist"
+            >Wishlist</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/miscellaneous/feedback"
+            >Feedback</a
+          >
+        </li>
+      </ul>
+      <div class="auth ml-auto mr-2">
+        <button class="btn btn-danger" (click)="onLogin()" *ngIf="!auth && !loadedAuthPage">
+          Login
+        </button>
+        <button class="btn btn-danger" (click)="onLogout()" *ngIf="auth">Logout</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <app-loading-spinner
+    class="d-flex justify-content-center align-items-center w-100"
+    *ngIf="isLoading"
+  ></app-loading-spinner>
+  <router-outlet *ngIf="!isLoading"></router-outlet>
+</main>
+
+<footer
+  class="bg-secondary border-top d-flex flex-column justify-content-center align-items-center"
+>
+  <div>Big Store &copy; 2024</div>
+  <a routerLink="/miscellaneous/contactus">Contact Us</a>
+</footer>

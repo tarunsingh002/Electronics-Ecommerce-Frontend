@@ -1,0 +1,24 @@
+.card {
+  height: 100px;
+}
+
+img {
+  height: 100px;
+  width: 120px;
+  object-fit: cover;
+}
+
+@media (max-width: 576px) {
+  img {
+    height: 72vw;
+    width: 100%;
+  }
+
+  p.name {
+    margin-top: 0.5rem;
+  }
+}
+
+.empty {
+  height: 78vh;
+}

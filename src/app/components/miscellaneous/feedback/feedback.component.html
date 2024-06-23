@@ -1,0 +1,35 @@
+<div class="container">
+  <h3 class="display-3 text-center mb-4">Quick Feedback</h3>
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8">
+      <form class="mb-3" #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="mb-3">
+          <label class="form-label" for="name">Company Name</label>
+          <input
+            placeholder="Your Company Name (Optional)"
+            type="text"
+            class="form-control"
+            name="name"
+            ngModel
+            #name="ngModel"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="feedback">Feedback</label>
+          <textarea
+            [placeholder]="placeholderText"
+            type="text"
+            class="form-control"
+            name="feedback"
+            rows="8"
+            ngModel
+            #feedback="ngModel"
+            required
+          ></textarea>
+          <small *ngIf="feedback.invalid && feedback.touched">Feedback is a required field</small>
+        </div>
+        <button [disabled]="f.invalid" type="submit" class="btn btn-primary btn-lg">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

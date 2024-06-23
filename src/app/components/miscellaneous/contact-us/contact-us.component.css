@@ -1,0 +1,11 @@
+.container {
+  height: 78vh;
+}
+
+small {
+  color: red;
+}
+
+input.ng-invalid.ng-touched {
+  border: solid 1px red;
+}

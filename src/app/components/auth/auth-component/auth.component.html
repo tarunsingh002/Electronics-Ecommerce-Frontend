@@ -1,0 +1,60 @@
+<div class="container d-flex flex-column justify-content-center">
+  <app-loading-spinner
+    class="d-flex justify-content-center w-100"
+    *ngIf="isLoading"
+  ></app-loading-spinner>
+  <div class="row d-flex justify-content-center w-100" *ngIf="!isLoading">
+    <div class="col-lg-4 col-md-6">
+      <div class="alert alert-danger" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      <form #authForm="ngForm" (ngSubmit)="formSubmitted(authForm)">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            ngModel
+            id="email"
+            required
+            class="form-control"
+            placeholder="Enter your email"
+            #email="ngModel"
+            email
+          />
+          <small class="validation" *ngIf="email.invalid && email.touched"
+            >Enter a valid email</small
+          >
+          <small>Test credentials email "user&#64;gmail.com"</small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            ngModel
+            id="password"
+            required
+            class="form-control"
+            placeholder="Enter your password"
+            minlength="6"
+            #password="ngModel"
+          />
+          <small class="validation" *ngIf="password.invalid && password.touched"
+            >Password must be atleast 6 characters</small
+          >
+          <small>Test credentials password "user1234".</small>
+        </div>
+        <div>
+          <button [disabled]="authForm.invalid" type="submit" class="btn btn-primary">
+            {{ signUpMode ? 'Sign Up' : 'Login' }}
+          </button>
+          |
+          <button type="button" class="btn btn-info text-light" (click)="onSwitch()">
+            {{ signUpMode ? 'Switch to Login' : 'Switch to Sign Up' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container">
+    <h3 class="display-3 text-center">Contact Us</h3>
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+            <form #contactForm="ngForm">
+                <div class="mb-3">
+                    <label class="form-label" for="name">Name</label>
+                    <input type="text" class="form-control" name="name" #name="ngModel" ngModel required>
+                    <small *ngIf="name.invalid && name.touched">The name field is required</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="name">Email</label>
+                    <input type="email" class="form-control" name="email" ngModel #email="ngModel" required>
+                    <small *ngIf="email.invalid && email.touched">The email field is required</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="Name">Query</label>
+                    <textarea type="text" class="form-control" name="query" rows="5" ngModel #query="ngModel"
+                        required></textarea>
+                    <small *ngIf="query.invalid && query.touched">The query field is required</small>
+                </div>
+                <button [disabled]="contactForm.invalid" type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

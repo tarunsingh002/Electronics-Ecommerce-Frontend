@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="display-3 text-center mb-2">Order Details</div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between">
+            <span>Order Date:</span>
+            <span>{{this.date}}</span>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between"
+                *ngFor="let i of order?.orderItems; let j = index">
+                <span>{{i.product.name}}</span>
+                <div class="d-flex justify-content-between">
+                    <span class="ml-2 mr-5">{{"$"+i.product.price}}</span>
+                    <span>{{"Quantity :"+i.quantity}}</span>
+                </div>
+            </li>
+        </ul>
+        <div class="card-footer d-flex justify-content-between">
+            <span>Order Total:</span>
+            <span>{{"$"+total}}</span>
+        </div>
+    </div>
+</div>
