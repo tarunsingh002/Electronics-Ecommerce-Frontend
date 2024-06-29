@@ -1,50 +1,40 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
-import { AppComponent } from "./app.component";
+import {AppComponent} from './app.component';
 
-import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
-import { SharedModule } from "./components/shared/shared.module";
-import { AuthInterceptor } from "./services/auth-services/auth.interceptor";
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {SharedModule} from './modules/shared/shared.module';
+import {AuthInterceptor} from './services/auth-services/auth.interceptor';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/products", pathMatch: "full" },
+  {path: '', redirectTo: '/products', pathMatch: 'full'},
   {
-    path: "auth",
-    loadChildren: () =>
-      import("./components/auth/auth.module").then((m) => m.AuthModule),
+    path: 'auth',
+    loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: "products",
-    loadChildren: () =>
-      import("./components/products/products.module").then(
-        (m) => m.ProductsModule
-      ),
+    path: 'products',
+    loadChildren: () => import('./modules/products/products.module').then((m) => m.ProductsModule),
   },
   {
-    path: "admin",
-    loadChildren: () =>
-      import("./components/admin/admin.module").then((m) => m.AdminModule),
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule),
   },
   {
-    path: "buying",
-    loadChildren: () =>
-      import("./components/buying/buying.module").then((m) => m.BuyingModule),
+    path: 'buying',
+    loadChildren: () => import('./modules/buying/buying.module').then((m) => m.BuyingModule),
   },
   {
-    path: "miscellaneous",
+    path: 'miscellaneous',
     loadChildren: () =>
-      import("./components/miscellaneous/miscellaneous.module").then(
-        (m) => m.MiscellaneousModule
-      ),
+      import('./modules/miscellaneous/miscellaneous.module').then((m) => m.MiscellaneousModule),
   },
   {
-    path: "**",
+    path: '**',
     loadChildren: () =>
-      import("./components/page-not-found/page-not-found.module").then(
-        (m) => m.PageNotFoundModule
-      ),
+      import('./modules/page-not-found/page-not-found.module').then((m) => m.PageNotFoundModule),
   },
 ];
 
@@ -53,12 +43,10 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules}),
     SharedModule,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  ],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
