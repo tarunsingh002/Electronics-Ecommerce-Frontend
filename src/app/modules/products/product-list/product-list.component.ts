@@ -107,6 +107,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
                     this.wishlisting.push(false);
                     this.unwishlisting.push(false);
                   });
+                  console.log(res);
                   if (this.auth && !this.webmaster && res) {
                     res.forEach((r) => {
                       let index = this.products.findIndex((p) => p.productId === r.productId);
@@ -136,7 +137,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
             this.loggingIn = true;
             setTimeout(() => {
               this.authS.signIn('user@gmail.com', 'user1234').subscribe(() => {
-                this.loggingIn = false;
+                this.wlService.getWishList().subscribe(() => {
+                  this.loggingIn = false;
+                });
               });
             }, 3000);
           }, 4000);

@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, of } from "rxjs";
-import { Product } from "../models/product.model";
-import { HttpClient } from "@angular/common/http";
-import { AuthService } from "./auth-services/auth.service";
-import { exhaustMap, take, tap } from "rxjs/operators";
-import { apiUrl } from "../apiutility";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, of} from 'rxjs';
+import {Product} from '../models/product.model';
+import {HttpClient} from '@angular/common/http';
+import {AuthService} from './auth-services/auth.service';
+import {exhaustMap, take, tap} from 'rxjs/operators';
+import {apiUrl} from '../apiutility';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class WishlistService {
   WishListChanged = new BehaviorSubject<Product[]>(null);
@@ -28,13 +28,14 @@ export class WishlistService {
 
   addToWishList(product: Product) {
     return this.http.post(`${this.api}/addproduct`, product, {
-      responseType: "text",
+      responseType: 'text',
     });
   }
 
   getWishList() {
     return this.getWishListData().pipe(
       tap((res) => {
+        console.log(res);
         this.WishListChanged.next(res);
       })
     );
@@ -42,13 +43,13 @@ export class WishlistService {
 
   removeFromWishList(id: number) {
     return this.http.delete(`${this.api}/deleteproduct/${id}`, {
-      responseType: "text",
+      responseType: 'text',
     });
   }
 
   isProductWishListed(id: number) {
     return this.http.get(`${this.api}/iswishlisted/${id}`, {
-      responseType: "text",
+      responseType: 'text',
     });
   }
 }
