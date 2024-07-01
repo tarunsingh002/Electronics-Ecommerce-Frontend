@@ -1,12 +1,12 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { order } from "./auth-services/user.service";
-import { AuthService } from "./auth-services/auth.service";
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {order} from './auth-services/user.service';
+import {AuthService} from './auth-services/auth.service';
 
-import { exhaustMap, take } from "rxjs/operators";
-import { of } from "rxjs";
-import { Product } from "../models/product.model";
-import { apiUrl } from "../apiutility";
+import {exhaustMap, switchMap, take} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {Product} from '../models/product.model';
+import {apiUrl} from '../apiutility';
 
 export interface wishlist {
   id: number;
@@ -15,7 +15,7 @@ export interface wishlist {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AdminService {
   api: string = `${apiUrl}/api/v1`;
@@ -24,9 +24,9 @@ export class AdminService {
   loadAllOrders() {
     return this.AuthS.User.pipe(
       take(1),
-      exhaustMap((user) => {
-        if (user && user.webmaster)
-          return this.http.get<order[]>(`${this.api}/admin/getallorders`);
+      // exhaustMap((user) => {
+      switchMap((user) => {
+        if (user && user.webmaster) return this.http.get<order[]>(`${this.api}/admin/getallorders`);
         else return of(null);
       })
     );
@@ -35,11 +35,10 @@ export class AdminService {
   getAllWishlisted() {
     return this.AuthS.User.pipe(
       take(1),
-      exhaustMap((user) => {
+      // exhaustMap((user) => {
+      switchMap((user) => {
         if (user && user.webmaster)
-          return this.http.get<wishlist[]>(
-            `${this.api}/admin/getallwishlisted`
-          );
+          return this.http.get<wishlist[]>(`${this.api}/admin/getallwishlisted`);
         else return of(null);
       })
     );
@@ -48,9 +47,9 @@ export class AdminService {
   getOrder(id: number) {
     return this.AuthS.User.pipe(
       take(1),
-      exhaustMap((user) => {
-        if (user && user.webmaster)
-          return this.http.get<order>(`${this.api}/admin/getorder/${id}`);
+      // exhaustMap((user) => {
+      switchMap((user) => {
+        if (user && user.webmaster) return this.http.get<order>(`${this.api}/admin/getorder/${id}`);
         else return of(null);
       })
     );

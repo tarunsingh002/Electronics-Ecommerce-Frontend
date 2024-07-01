@@ -3,12 +3,12 @@ import {Product} from '../../../models/product.model';
 
 import {ProductDataService} from '../../../services/product-data.service';
 import {AuthService} from '../../../services/auth-services/auth.service';
-import {Subscription} from 'rxjs';
+import {Subscription, combineLatest} from 'rxjs';
 import {CartPageService} from '../../../services/cart-page.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
 import {WishlistService} from 'src/app/services/wishlist.service';
-import {debounceTime, map, mergeMap, tap} from 'rxjs/operators';
+import {concat, debounceTime, map, mergeMap, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-list',
@@ -80,49 +80,84 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.dservice.productResponseChanged
-      .pipe(
-        mergeMap((productResponse) =>
-          this.authS.User.pipe(
-            mergeMap((user) =>
-              this.wlService.WishListChanged.pipe(
-                map((res) => {
-                  if (productResponse.products) {
-                    this.products = productResponse.products;
-                    this.noOfResults = productResponse.totalElements;
+    this.sub = combineLatest([
+      this.dservice.productResponseChanged,
+      this.authS.User,
+      this.wlService.WishListChanged,
+    ]).subscribe((res) => {
+      if (res[0].products) {
+        this.products = res[0].products;
+        this.noOfResults = res[0].totalElements;
+        this.pages = [];
+        for (let i = 0; i < res[0].totalPages; i++) this.pages.push(i + 1);
+        this.isLast = res[0].lastPage;
+        this.currentPage = res[0].pageNumber + 1;
+      }
 
-                    this.pages = [];
-                    for (let i = 0; i < productResponse.totalPages; i++) this.pages.push(i + 1);
-                    this.isLast = productResponse.lastPage;
-                    this.currentPage = productResponse.pageNumber + 1;
-                  }
-                  this.auth = !!user;
-                  if (user) {
-                    this.webmaster = user.webmaster;
-                    this.userEmail = user.email;
-                  }
-                  this.wishListed = [];
-                  this.products.forEach(() => {
-                    this.wishListed.push(false);
-                    this.wishlisting.push(false);
-                    this.unwishlisting.push(false);
-                  });
-                  console.log(res);
-                  if (this.auth && !this.webmaster && res) {
-                    res.forEach((r) => {
-                      let index = this.products.findIndex((p) => p.productId === r.productId);
-                      this.wishListed[index] = true;
-                    });
-                  }
-                  return;
-                })
-              )
-            )
-          )
-        )
-      )
+      this.auth = !!res[1];
+      if (res[1]) {
+        this.webmaster = res[1].webmaster;
+        this.userEmail = res[1].email;
+      }
 
-      .subscribe();
+      this.wishListed = [];
+      this.products.forEach(() => {
+        this.wishListed.push(false);
+        this.wishlisting.push(false);
+        this.unwishlisting.push(false);
+      });
+
+      if (this.auth && !this.webmaster && res[2]) {
+        res[2].forEach((r) => {
+          let index = this.products.findIndex((p) => p.productId === r.productId);
+          this.wishListed[index] = true;
+        });
+      }
+    });
+
+    // this.sub = this.dservice.productResponseChanged
+    //   .pipe(
+    //     mergeMap((productResponse) =>
+    //       this.authS.User.pipe(
+    //         mergeMap((user) =>
+    //           this.wlService.WishListChanged.pipe(
+    //             map((res) => {
+    //               if (productResponse.products) {
+    //                 this.products = productResponse.products;
+    //                 this.noOfResults = productResponse.totalElements;
+
+    //                 this.pages = [];
+    //                 for (let i = 0; i < productResponse.totalPages; i++) this.pages.push(i + 1);
+    //                 this.isLast = productResponse.lastPage;
+    //                 this.currentPage = productResponse.pageNumber + 1;
+    //               }
+    //               this.auth = !!user;
+    //               if (user) {
+    //                 this.webmaster = user.webmaster;
+    //                 this.userEmail = user.email;
+    //               }
+    //               this.wishListed = [];
+    //               this.products.forEach(() => {
+    //                 this.wishListed.push(false);
+    //                 this.wishlisting.push(false);
+    //                 this.unwishlisting.push(false);
+    //               });
+
+    //               if (this.auth && !this.webmaster && res) {
+    //                 res.forEach((r) => {
+    //                   let index = this.products.findIndex((p) => p.productId === r.productId);
+    //                   this.wishListed[index] = true;
+    //                 });
+    //               }
+    //               return;
+    //             })
+    //           )
+    //         )
+    //       )
+    //     )
+    //   )
+
+    //   .subscribe();
 
     if (!this.auth) {
       this.introductoryMessage1 = true;

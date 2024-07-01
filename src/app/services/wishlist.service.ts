@@ -3,7 +3,7 @@ import {BehaviorSubject, of} from 'rxjs';
 import {Product} from '../models/product.model';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from './auth-services/auth.service';
-import {exhaustMap, take, tap} from 'rxjs/operators';
+import {exhaustMap, switchMap, take, tap} from 'rxjs/operators';
 import {apiUrl} from '../apiutility';
 
 @Injectable({
@@ -18,7 +18,8 @@ export class WishlistService {
   getWishListData() {
     return this.authS.User.pipe(
       take(1),
-      exhaustMap((user) => {
+      // exhaustMap((user) => {
+      switchMap((user) => {
         if (user && !user.webmaster) {
           return this.http.get<Product[]>(`${this.api}/getwishlist`);
         } else return of(null);
