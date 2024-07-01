@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
-import {Observable, combineLatest, of} from 'rxjs';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {combineLatest} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {Product} from '../models/product.model';
-import {AdminService, wishlist} from './admin.service';
-import {ProductDataService} from './product-data.service';
-import {exhaustMap, map} from 'rxjs/operators';
+import {AdminService} from './admin.service';
 import {LoadingService} from './loading.service';
+import {ProductDataService} from './product-data.service';
 
 @Injectable({
   providedIn: 'root',

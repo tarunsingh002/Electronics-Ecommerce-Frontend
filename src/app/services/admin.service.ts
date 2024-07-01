@@ -1,12 +1,12 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {order} from './auth-services/user.service';
 import {AuthService} from './auth-services/auth.service';
+import {order} from './auth-services/user.service';
 
-import {exhaustMap, switchMap, take} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Product} from '../models/product.model';
+import {switchMap, take} from 'rxjs/operators';
 import {apiUrl} from '../apiutility';
+import {Product} from '../models/product.model';
 
 export interface wishlist {
   id: number;

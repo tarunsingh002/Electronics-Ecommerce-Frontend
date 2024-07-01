@@ -1,10 +1,10 @@
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, of} from 'rxjs';
-import {Product} from '../models/product.model';
-import {HttpClient} from '@angular/common/http';
-import {AuthService} from './auth-services/auth.service';
-import {exhaustMap, switchMap, take, tap} from 'rxjs/operators';
+import {switchMap, take, tap} from 'rxjs/operators';
 import {apiUrl} from '../apiutility';
+import {Product} from '../models/product.model';
+import {AuthService} from './auth-services/auth.service';
 
 @Injectable({
   providedIn: 'root',

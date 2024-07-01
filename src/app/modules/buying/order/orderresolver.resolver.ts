@@ -1,15 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
-import {Observable, concat, of} from 'rxjs';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {Observable, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {User} from '../../../models/user.model';
 import {AuthService} from '../../../services/auth-services/auth.service';
 import {OrderItem, UserService, order} from '../../../services/auth-services/user.service';
-import {User} from '../../../models/user.model';
-import {exhaustMap, switchMap, tap} from 'rxjs/operators';
+import {CartPageService} from '../../../services/cart-page.service';
 import {LoadingService} from '../../../services/loading.service';
 import {ProductDataService} from '../../../services/product-data.service';
-import {Cart} from '../../../models/cart.model';
-import {CartPageService} from '../../../services/cart-page.service';
-import {Product} from 'src/app/models/product.model';
 
 @Injectable({
   providedIn: 'root',

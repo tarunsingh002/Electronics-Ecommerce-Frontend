@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
-import {Observable, of} from 'rxjs';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {map} from 'rxjs/operators';
 import {AdminService} from './admin.service';
 import {AuthService} from './auth-services/auth.service';
-import {exhaustMap, map, mergeMap, take} from 'rxjs/operators';
 import {order} from './auth-services/user.service';
 import {LoadingService} from './loading.service';
 

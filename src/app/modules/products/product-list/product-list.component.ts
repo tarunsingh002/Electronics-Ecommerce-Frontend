@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 
-import {ProductDataService} from '../../../services/product-data.service';
-import {AuthService} from '../../../services/auth-services/auth.service';
-import {Subscription, combineLatest} from 'rxjs';
-import {CartPageService} from '../../../services/cart-page.service';
-import {Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Subscription, combineLatest} from 'rxjs';
+import {debounceTime, tap} from 'rxjs/operators';
 import {WishlistService} from 'src/app/services/wishlist.service';
-import {concat, debounceTime, map, mergeMap, tap} from 'rxjs/operators';
+import {AuthService} from '../../../services/auth-services/auth.service';
+import {CartPageService} from '../../../services/cart-page.service';
+import {ProductDataService} from '../../../services/product-data.service';
 
 @Component({
   selector: 'app-product-list',
