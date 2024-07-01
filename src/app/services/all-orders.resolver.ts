@@ -16,18 +16,16 @@ export class AllOrdersResolver implements Resolve<{orders: any[]; earnings: numb
     private authS: AuthService,
     private l: LoadingService
   ) {}
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<{orders: any[]; earnings: number}> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.l.isLoading.next(true);
     let earnings = 0;
     let orders = [];
     // return this.authS.User.pipe(
     //   take(1),
     //   exhaustMap((user) =>
+    // exhaustMap((res: order[]) => {
     return this.adminService.loadAllOrders().pipe(
-      exhaustMap((res: order[]) => {
+      map((res: order[]) => {
         earnings = 0;
         res.forEach((r) => {
           let timestamp = new Date(r.timestamp).toDateString();
@@ -45,7 +43,7 @@ export class AllOrdersResolver implements Resolve<{orders: any[]; earnings: numb
         });
         console.log(res);
         this.l.isLoading.next(false);
-        return of({orders: orders, earnings: earnings});
+        return {orders: orders, earnings: earnings};
       })
     );
   }
