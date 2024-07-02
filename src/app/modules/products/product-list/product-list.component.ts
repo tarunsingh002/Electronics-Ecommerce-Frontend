@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Product} from '../../../models/product.model';
 
 import {FormControl, FormGroup} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription, combineLatest} from 'rxjs';
 import {debounceTime, tap} from 'rxjs/operators';
 import {WishlistService} from 'src/app/services/wishlist.service';
@@ -71,7 +71,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private authS: AuthService,
     private cservice: CartPageService,
     private router: Router,
-    private wlService: WishlistService
+    private wlService: WishlistService,
+    private aroute: ActivatedRoute
   ) {}
 
   ngOnDestroy(): void {
@@ -196,6 +197,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
       )
       .subscribe((term: string) => {
         this.searchTerm = term.trim();
+
+        if (this.searchTerm !== '') {
+          this.router.navigate([], {
+            relativeTo: this.aroute,
+            queryParams: {search: this.searchTerm},
+            queryParamsHandling: 'merge',
+          });
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.aroute,
+            queryParams: {search: null},
+            queryParamsHandling: 'merge',
+          });
+        }
+
         this.dservice
           .getProducts(
             1,
@@ -213,10 +229,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
       });
 
     this.reactiveForm1 = new FormGroup({
-      sortby: new FormControl('0'),
+      sortBy: new FormControl('0'),
     });
 
-    this.reactiveForm1.get('sortby').valueChanges.subscribe((sortBy: string) => {
+    this.reactiveForm1.get('sortBy').valueChanges.subscribe((sortBy: string) => {
       console.log(sortBy);
       this.sorting = true;
       switch (+sortBy) {
@@ -245,6 +261,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.direction = 'desc';
           break;
       }
+
+      if (+sortBy !== 0) {
+        this.router.navigate([], {
+          relativeTo: this.aroute,
+          queryParams: {sortBy: this.sortBy, direction: this.direction},
+          queryParamsHandling: 'merge',
+        });
+      } else {
+        this.router.navigate([], {
+          relativeTo: this.aroute,
+          queryParams: {sortBy: null, direction: null},
+          queryParamsHandling: 'merge',
+        });
+      }
+
       this.dservice
         .getProducts(
           1,
@@ -275,8 +306,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       // console.log(brandsboolean);
       this.filtering = true;
 
-      let i = 0;
       this.brandfilter = [];
+      let i = 0;
 
       for (const key in brandsboolean) {
         if (brandsboolean.hasOwnProperty(key)) {
@@ -285,6 +316,22 @@ export class ProductListComponent implements OnInit, OnDestroy {
           }
           i++;
         }
+      }
+
+      if (this.brandfilter.length) {
+        let brandFilterParam = this.brandfilter.join();
+
+        this.router.navigate([], {
+          relativeTo: this.aroute,
+          queryParams: {brands: brandFilterParam},
+          queryParamsHandling: 'merge',
+        });
+      } else {
+        this.router.navigate([], {
+          relativeTo: this.aroute,
+          queryParams: {brands: null},
+          queryParamsHandling: 'merge',
+        });
       }
 
       this.dservice
@@ -330,6 +377,22 @@ export class ProductListComponent implements OnInit, OnDestroy {
         }
       }
 
+      if (this.categoryfilter.length) {
+        let categoryFilterParam = this.categoryfilter.join();
+
+        this.router.navigate([], {
+          relativeTo: this.aroute,
+          queryParams: {categories: categoryFilterParam},
+          queryParamsHandling: 'merge',
+        });
+      } else {
+        this.router.navigate([], {
+          relativeTo: this.aroute,
+          queryParams: {categories: null},
+          queryParamsHandling: 'merge',
+        });
+      }
+
       this.dservice
         .getProducts(
           1,
@@ -345,6 +408,93 @@ export class ProductListComponent implements OnInit, OnDestroy {
           else this.usingFilter2 = true;
         });
     });
+
+    if (this.aroute.snapshot.queryParamMap.get('search')) {
+      let term = this.aroute.snapshot.queryParamMap.get('search').trim();
+      this.reactiveForm.setValue({searchTerm: term});
+    }
+
+    if (
+      this.aroute.snapshot.queryParamMap.get('sortBy') &&
+      this.aroute.snapshot.queryParamMap.get('direction')
+    ) {
+      let sortBy: number;
+      switch (
+        this.aroute.snapshot.queryParamMap.get('sortBy') +
+        this.aroute.snapshot.queryParamMap.get('direction')
+      ) {
+        case 'pricedesc':
+          sortBy = 1;
+          break;
+
+        case 'priceasc':
+          sortBy = 2;
+          break;
+
+        case 'nameasc':
+          sortBy = 3;
+          break;
+
+        case 'namedesc':
+          sortBy = 4;
+          break;
+      }
+
+      this.reactiveForm1.setValue({sortBy: sortBy.toString()});
+    }
+
+    if (this.aroute.snapshot.queryParamMap.get('brands')) {
+      let brandarray = this.aroute.snapshot.queryParamMap.get('brands').split(',');
+      let brandsboolean = {
+        brand1: false,
+        brand2: false,
+        brand3: false,
+        brand4: false,
+        brand5: false,
+        brand6: false,
+        brand7: false,
+        brand8: false,
+        brand9: false,
+      };
+
+      let i = 0;
+
+      for (const key in brandsboolean) {
+        if (brandsboolean.hasOwnProperty(key)) {
+          if (brandarray.includes(this.brands[i])) brandsboolean[key] = true;
+          i++;
+        }
+      }
+      console.log(brandsboolean);
+
+      this.rForm.setValue(brandsboolean);
+    }
+
+    if (this.aroute.snapshot.queryParamMap.get('categories')) {
+      let categoryarray = this.aroute.snapshot.queryParamMap.get('categories').split(',');
+      let categoriesboolean = {
+        category1: false,
+        category2: false,
+        category3: false,
+        category4: false,
+        category5: false,
+        category6: false,
+        category7: false,
+        category8: false,
+      };
+
+      let i = 0;
+
+      for (const key in categoriesboolean) {
+        if (categoriesboolean.hasOwnProperty(key)) {
+          if (categoryarray.includes(this.categories[i])) categoriesboolean[key] = true;
+          i++;
+        }
+      }
+      console.log(categoriesboolean);
+
+      this.rForm1.setValue(categoriesboolean);
+    }
   }
 
   onDelete(id: number) {
