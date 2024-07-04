@@ -161,26 +161,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     //   .subscribe();
 
     if (!this.auth) {
-      this.introductoryMessage1 = true;
+      this.loggingIn = true;
       setTimeout(() => {
-        this.introductoryMessage1 = false;
-        this.introductoryMessage2 = true;
-        setTimeout(() => {
-          this.introductoryMessage2 = false;
-          this.introductoryMessage3 = true;
-          setTimeout(() => {
-            this.introductoryMessage3 = false;
-            this.loggingIn = true;
-            setTimeout(() => {
-              this.authS.signIn('user@gmail.com', 'user1234').subscribe(() => {
-                this.wlService.getWishList().subscribe(() => {
-                  this.loggingIn = false;
-                });
-              });
-            }, 3000);
-          }, 4000);
-        }, 4000);
-      }, 3000);
+        this.authS.signIn('user@gmail.com', 'user1234').subscribe(() => {
+          this.wlService.getWishList().subscribe(() => {
+            this.loggingIn = false;
+          });
+        });
+      }, 2800);
     }
 
     this.reactiveForm = new FormGroup({

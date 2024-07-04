@@ -45,7 +45,7 @@
     </div>
     <div class="col-md-10">
       <!-- Greeting to the user -->
-      <div *ngIf="auth" class="lead mb-2 text-center">Hello {{ userEmail }}</div>
+
       <div class="row d-flex justify-content-between mt-2 mb-4">
         <!-- Search Bar -->
         <div class="col-sm-6 col-lg-6 col-xl-4 mb-4 mb-sm-0">
@@ -92,23 +92,9 @@
 
       <!-- Logging In with Dummy user -->
 
-      <div class="font-weight-normal lead text-center mb-4" *ngIf="introductoryMessage1">
-        Thank you for checking out this website.
-      </div>
-      <div class="font-weight-normal lead text-center mb-4" *ngIf="introductoryMessage2">
-        For you to be able to see most of the features of this website in minimum time.
-      </div>
-      <div class="font-weight-normal lead text-center mb-4" *ngIf="introductoryMessage3">
-        We will be signing you in with a dummy user in a second.
-      </div>
-
       <div *ngIf="loggingIn" class="d-flex align-items-center mb-4">
         <div class="lead font-weight-normal">Signing you in with a dummy user...</div>
-        <div
-          class="spinner-border spinner-border-sm ml-auto"
-          role="status"
-          aria-hidden="true"
-        ></div>
+        <div class="spinner-border spinner-border-sm ml-auto"></div>
       </div>
 
       <!-- Searching-Sorting-Filtering loading -->
@@ -122,7 +108,7 @@
       <!-- Searching-Filtering results line -->
 
       <div
-        *ngIf="!(sorting || searching || filtering) && noOfResults"
+        *ngIf="usingSearch || usingFilter1 || usingFilter2"
         class="d-flex justify-content-center mb-4 results-line"
       >
         <div *ngIf="usingSearch && (usingFilter1 || usingFilter2)" class="lead">

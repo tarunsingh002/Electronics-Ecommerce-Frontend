@@ -88,7 +88,10 @@
           >
         </li>
       </ul>
-      <div class="auth ml-auto mr-2">
+      <div class="auth ml-auto mr-2 d-flex align-items-center">
+        <div *ngIf="auth" class="mr-3 text-white">
+          {{ email }}
+        </div>
         <button class="btn btn-danger" (click)="onLogin()" *ngIf="!auth && !loadedAuthPage">
           Login
         </button>
