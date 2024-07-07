@@ -116,50 +116,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
       }
     });
 
-    // this.sub = this.dservice.productResponseChanged
-    //   .pipe(
-    //     mergeMap((productResponse) =>
-    //       this.authS.User.pipe(
-    //         mergeMap((user) =>
-    //           this.wlService.WishListChanged.pipe(
-    //             map((res) => {
-    //               if (productResponse.products) {
-    //                 this.products = productResponse.products;
-    //                 this.noOfResults = productResponse.totalElements;
-
-    //                 this.pages = [];
-    //                 for (let i = 0; i < productResponse.totalPages; i++) this.pages.push(i + 1);
-    //                 this.isLast = productResponse.lastPage;
-    //                 this.currentPage = productResponse.pageNumber + 1;
-    //               }
-    //               this.auth = !!user;
-    //               if (user) {
-    //                 this.webmaster = user.webmaster;
-    //                 this.userEmail = user.email;
-    //               }
-    //               this.wishListed = [];
-    //               this.products.forEach(() => {
-    //                 this.wishListed.push(false);
-    //                 this.wishlisting.push(false);
-    //                 this.unwishlisting.push(false);
-    //               });
-
-    //               if (this.auth && !this.webmaster && res) {
-    //                 res.forEach((r) => {
-    //                   let index = this.products.findIndex((p) => p.productId === r.productId);
-    //                   this.wishListed[index] = true;
-    //                 });
-    //               }
-    //               return;
-    //             })
-    //           )
-    //         )
-    //       )
-    //     )
-    //   )
-
-    //   .subscribe();
-
     if (!this.auth) {
       this.loggingIn = true;
       setTimeout(() => {

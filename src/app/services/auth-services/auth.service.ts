@@ -1,11 +1,11 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, throwError } from "rxjs";
-import { User } from "../../models/user.model";
-import { catchError, tap } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { apiUrl } from "src/app/apiutility";
-import { CartPageService } from "../cart-page.service";
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, throwError} from 'rxjs';
+import {User} from '../../models/user.model';
+import {catchError, tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {apiUrl} from 'src/app/apiutility';
+import {CartPageService} from '../cart-page.service';
 
 export interface responseData {
   id: number;
@@ -17,7 +17,7 @@ export interface responseData {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(
@@ -104,14 +104,8 @@ export class AuthService {
     );
     this.User.next(user);
     this.autoLogout(refreshTokenExpirationTime);
-    this.autoRefresh(
-      user,
-      token,
-      refreshToken,
-      tokenExpirationTime,
-      refreshTokenExpirationTime
-    );
-    localStorage.setItem("userData", JSON.stringify(user));
+    this.autoRefresh(user, token, refreshToken, tokenExpirationTime, refreshTokenExpirationTime);
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 
   autoRefresh(
@@ -134,7 +128,7 @@ export class AuthService {
             user.webmaster
           );
           this.User.next(user);
-          localStorage.setItem("userData", JSON.stringify(user));
+          localStorage.setItem('userData', JSON.stringify(user));
           this.autoRefresh(
             user,
             user.token,
@@ -163,9 +157,9 @@ export class AuthService {
   logout() {
     this.User.next(null);
     this.cartPageService.cartChanged.next(null);
-    localStorage.removeItem("userData");
-    localStorage.removeItem("cart");
-    this.router.navigate(["auth"]);
+    localStorage.removeItem('userData');
+    localStorage.removeItem('cart');
+    this.router.navigate(['auth']);
     if (this.refreshTokenExpirationTimer) {
       clearTimeout(this.refreshTokenExpirationTimer);
     }
@@ -178,11 +172,16 @@ export class AuthService {
   }
 
   autoLogin() {
-    const obj = JSON.parse(localStorage.getItem("userData"));
-    const obj2 = JSON.parse(localStorage.getItem("cart"));
+    const obj = JSON.parse(localStorage.getItem('userData'));
+    const obj2 = JSON.parse(localStorage.getItem('cart'));
 
-    if (!obj2) this.cartPageService.cartChanged.next(null);
-    else this.cartPageService.cartChanged.next(obj2);
+    if (!obj2) {
+      this.cartPageService.cartChanged.next(null);
+      this.cartPageService.cart = [];
+    } else {
+      this.cartPageService.cartChanged.next(obj2);
+      this.cartPageService.cart = obj2;
+    }
 
     if (!obj) return;
 
@@ -199,9 +198,7 @@ export class AuthService {
     if (loadedUser.refreshToken) {
       this.User.next(loadedUser);
       const tokenExpirationTime = new Date(obj._tokenExpirationDate).getTime();
-      const refreshTokenExpirationTime = new Date(
-        obj._refreshTokenExpirationDate
-      ).getTime();
+      const refreshTokenExpirationTime = new Date(obj._refreshTokenExpirationDate).getTime();
       this.autoRefresh(
         loadedUser,
         loadedUser.token,
@@ -214,7 +211,7 @@ export class AuthService {
   }
 
   handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = "An unknown error occured";
+    let errorMessage = 'An unknown error occured';
 
     console.log(errorRes);
 
