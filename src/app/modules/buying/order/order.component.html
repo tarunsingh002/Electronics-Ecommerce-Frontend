@@ -1,31 +1,36 @@
 <div class="container">
-    <div *ngIf="!displayCarts.length" class="w-100 no-orders d-flex align-items-center justify-content-center">
-        <h3 class="display-3 text-center">You have not placed any orders</h3>
-    </div>
-    <div *ngIf="displayCarts.length" class="mb-5">
-        <div class="lead text-center mb-3">Hello, {{user.email}} here are your previous orders: </div>
-        <div *ngFor="let cart of displayCarts; let i=index">
-            <h3 class="display-5 text-center">{{"Order "+(i+1)}}</h3>
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between">
-                    <span>Order Date:</span>
-                    <span>{{cart.timestamp}}</span>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between"
-                        *ngFor="let p of cart.orderItems; let j = index">
-                        <span>{{p.product.name}}</span>
-                        <div class="d-flex justify-content-between">
-                            <span class="ml-2 mr-5">{{"$"+p.product.price}}</span>
-                            <span>{{"Quantity :"+p.quantity}}</span>
-                        </div>
-                    </li>
-                </ul>
-                <div class="card-footer d-flex justify-content-between">
-                    <span>Order Total:</span>
-                    <span>{{"$"+orderTotals[i]}}</span>
-                </div>
-            </div>
+  <div
+    *ngIf="!displayCarts.length"
+    class="w-100 no-orders d-flex align-items-center justify-content-center"
+  >
+    <h3 class="display-3 text-center">You have not placed any orders</h3>
+  </div>
+  <div *ngIf="displayCarts.length" class="mb-5">
+    <div class="lead text-center mb-3">Hello, {{ user.email }} here are your previous orders:</div>
+    <div *ngFor="let cart of displayCarts; let i = index">
+      <h3 class="display-5 text-center">{{ 'Order ' + (i + 1) }}</h3>
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between">
+          <span>Order Date:</span>
+          <span>{{ cart.timestamp }}</span>
         </div>
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item d-flex justify-content-between"
+            *ngFor="let p of cart.orderItems; let j = index"
+          >
+            <span>{{ p.product.name }}</span>
+            <div class="d-flex justify-content-between">
+              <span class="ml-2 mr-5">{{ 'Rs.' + p.product.price }}</span>
+              <span>{{ 'Quantity :' + p.quantity }}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="card-footer d-flex justify-content-between">
+          <span>Order Total:</span>
+          <span>{{ 'Rs.' + orderTotals[i] }}</span>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

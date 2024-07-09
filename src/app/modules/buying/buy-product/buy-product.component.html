@@ -12,12 +12,12 @@
           >
             <span>{{ p.product.name }}</span>
             <div class="d-flex justify-content-between">
-              <span class="ml-2 mr-5">{{ "$" + p.product.price }}</span>
-              <span>{{ "Quantity :" + p.quantity }}</span>
+              <span class="ml-2 mr-5">{{ 'Rs.' + p.product.price }}</span>
+              <span>{{ 'Quantity :' + p.quantity }}</span>
             </div>
           </li>
         </ul>
-        <h4 class="text-center my-3">{{ "Your Cart Total: $" + cartTotal }}</h4>
+        <h4 class="text-center my-3">{{ 'Your Cart Total: Rs.' + cartTotal }}</h4>
       </div>
       <div class="col-md-6 card mb-1">
         <h3 class="text-center mb-4 lead">Payment Details:</h3>
@@ -33,9 +33,7 @@
               class="form-control"
               #address="ngModel"
             />
-            <small *ngIf="address.invalid && address.touched"
-              >Address is a required field</small
-            >
+            <small *ngIf="address.invalid && address.touched">Address is a required field</small>
           </div>
           <div class="mb-3">
             <label class="mb-1" for="nameOnCard">Name on Card</label>

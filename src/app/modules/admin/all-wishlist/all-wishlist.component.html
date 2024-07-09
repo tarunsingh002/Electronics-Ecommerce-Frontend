@@ -1,21 +1,21 @@
 <div class="container">
-    <div class="text-center display-3 mb-3">All WishList Data</div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Product ID</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Product Price</th>
-                <th scope="col">Wishlisted</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let p of products;let i=index;">
-                <th scope="row">{{p.productId}}</th>
-                <td>{{p.name}}</td>
-                <td>{{"$"+p.price}}</td>
-                <td>{{wishlisted[i]}}</td>
-            </tr>
-        </tbody>
-    </table>
+  <div class="text-center display-3 mb-3">All WishList Data</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Product ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Product Price</th>
+        <th scope="col">Wishlisted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products; let i = index">
+        <th scope="row">{{ p.productId }}</th>
+        <td>{{ p.name }}</td>
+        <td>{{ 'Rs.' + p.price }}</td>
+        <td>{{ wishlisted[i] }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

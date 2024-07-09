@@ -13,7 +13,7 @@
     >
       <img [src]="p.url" />
       <p class="text-center name">{{ p.name }}</p>
-      <p class="text-center">{{ '$' + p.price }}</p>
+      <p class="text-center">{{ 'Rs.' + p.price }}</p>
       <div class="d-flex flex-column">
         <button (click)="addProductToCart(p)" class="btn btn-outline-primary mb-2">
           Add Product To Cart

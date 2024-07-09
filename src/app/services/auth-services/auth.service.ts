@@ -157,6 +157,7 @@ export class AuthService {
   logout() {
     this.User.next(null);
     this.cartPageService.cartChanged.next(null);
+    this.cartPageService.cart = [];
     localStorage.removeItem('userData');
     localStorage.removeItem('cart');
     this.router.navigate(['auth']);
