@@ -1,6 +1,6 @@
 ## Project Working Link
 
-https://store4.vercel.app/
+https://store6.vercel.app/
 
 ## User Email and Password to test out various features:
 
